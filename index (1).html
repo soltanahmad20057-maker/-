@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نشأة الكون | The Origin of the Universe</title>
+  <meta name="description" content="مختبر فلكي تفاعلي لاستكشاف نظرية الانفجار العظيم وتمدد الكون وقانون هابل" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #030012;
+      --bg-mid: #0a0520;
+      --bg-card: rgba(20, 15, 50, 0.55);
+      --bg-card-solid: #120c2e;
+      --accent: #a78bfa;
+      --accent-2: #60a5fa;
+      --accent-glow: rgba(167, 139, 250, 0.35);
+      --cyan: #22d3ee;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --text: #e8e4ff;
+      --text-muted: #a5b4d4;
+      --border: rgba(167, 139, 250, 0.25);
+      --glass: rgba(25, 18, 55, 0.55);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --radius: 16px;
+      --nav-h: 68px;
+      --font: 'Cairo', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-deep);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Starfield */
+    .stars {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse at bottom, #1b0a3a 0%, #030012 70%);
+    }
+    .star {
+      position: absolute; background: #fff; border-radius: 50%;
+      animation: twinkle ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; right: 0; left: 0; height: var(--nav-h);
+      background: rgba(3, 0, 18, 0.88); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border); z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.25rem;
+    }
+    .nav-brand {
+      font-weight: 800; font-size: 1.1rem; color: var(--accent);
+      display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+    }
+    .nav-links {
+      display: flex; gap: 0.1rem; list-style: none; overflow-x: auto;
+      scrollbar-width: none; max-width: 72vw;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; padding: 0.4rem 0.65rem;
+      border-radius: 8px; font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--accent); background: var(--accent-glow);
+    }
+    .menu-btn {
+      display: none; background: var(--glass); border: 1px solid var(--border);
+      color: var(--text); width: 40px; height: 40px; border-radius: 10px;
+      cursor: pointer; font-size: 1.2rem;
+    }
+    @media (max-width: 1100px) {
+      .nav-links {
+        display: none; position: absolute; top: var(--nav-h); right: 0; left: 0;
+        background: var(--bg-card-solid); flex-direction: column; padding: 1rem;
+        border-bottom: 1px solid var(--border); max-height: 70vh; overflow-y: auto;
+      }
+      .nav-links.open { display: flex; }
+      .menu-btn { display: flex; align-items: center; justify-content: center; }
+    }
+
+    section {
+      position: relative; z-index: 1; padding: 5rem 1.5rem 4rem;
+      max-width: 1100px; margin: 0 auto;
+      scroll-margin-top: calc(var(--nav-h) + 12px);
+    }
+    .section-title {
+      font-size: clamp(1.55rem, 4vw, 2.1rem); font-weight: 800;
+      margin-bottom: 0.5rem; color: var(--accent);
+      display: flex; align-items: center; gap: 0.55rem;
+    }
+    .section-sub { color: var(--text-muted); margin-bottom: 1.75rem; font-size: 1.05rem; }
+
+    .card {
+      background: var(--glass); backdrop-filter: blur(14px);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.5rem; box-shadow: var(--shadow); transition: border-color 0.25s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card-glow { box-shadow: 0 0 28px var(--accent-glow); }
+
+    /* Hero */
+    #home {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding-top: calc(var(--nav-h) + 2rem);
+      max-width: none; width: 100%;
+      background: radial-gradient(ellipse at center, #1a0a40 0%, #030012 65%);
+    }
+    .hero-content { max-width: 780px; z-index: 2; }
+    .hero-title {
+      font-size: clamp(2.3rem, 6.5vw, 3.6rem); font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--accent), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 0.85rem; line-height: 1.25;
+    }
+    .hero-sub {
+      font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem;
+      max-width: 560px; margin-inline: auto;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.55rem;
+      border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer;
+      border: none; font-family: var(--font); transition: all 0.25s; text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #7c3aed); color: #fff;
+      box-shadow: 0 4px 22px var(--accent-glow);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+    .btn-secondary {
+      background: transparent; color: var(--accent); border: 2px solid var(--accent);
+    }
+    .btn-secondary:hover { background: var(--accent-glow); }
+    .btn-sm { padding: 0.5rem 1rem; font-size: 0.9rem; }
+
+    .formula {
+      font-family: var(--mono); font-size: 1.5rem; background: var(--bg-card-solid);
+      padding: 1rem 1.4rem; border-radius: 12px; border: 1px solid var(--border);
+      text-align: center; direction: ltr; margin: 1rem 0; color: var(--cyan);
+      letter-spacing: 0.04em;
+    }
+    .formula-lg { font-size: 1.85rem; }
+
+    .control-group { margin: 1rem 0; }
+    .control-group label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.4rem; font-weight: 600; font-size: 0.95rem;
+    }
+    .control-group .val { color: var(--accent); font-family: var(--mono); }
+    input[type="range"] {
+      width: 100%; height: 8px; border-radius: 4px; appearance: none;
+      background: linear-gradient(to left, var(--accent), #4c1d95);
+      outline: none; cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none; width: 22px; height: 22px; border-radius: 50%;
+      background: #fff; border: 3px solid var(--accent); cursor: pointer;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    input[type="number"], input[type="text"], select {
+      background: var(--bg-card-solid); border: 1px solid var(--border);
+      color: var(--text); padding: 0.6rem 0.9rem; border-radius: 10px;
+      font-family: var(--font); font-size: 1rem; width: 100%; direction: ltr; text-align: left;
+    }
+    input:focus, select:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem; margin: 1.25rem 0;
+    }
+    .stat {
+      background: var(--bg-card-solid); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.9rem; text-align: center;
+    }
+    .stat .label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .stat .value { font-family: var(--mono); font-size: 1.1rem; font-weight: 600; color: var(--cyan); direction: ltr; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 800px) {
+      .two-col, .three-col { grid-template-columns: 1fr; }
+    }
+
+    .info-box {
+      background: rgba(167, 139, 250, 0.1); border-right: 4px solid var(--accent);
+      padding: 1rem 1.25rem; border-radius: 0 12px 12px 0; margin: 1rem 0;
+    }
+    .divider {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 2.5rem 0;
+    }
+
+    /* Universe elements clickable */
+    .universe-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.85rem;
+    }
+    .u-item {
+      background: var(--bg-card-solid); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.1rem 0.8rem; text-align: center;
+      cursor: pointer; transition: all 0.25s; font-weight: 700;
+    }
+    .u-item:hover, .u-item.active {
+      border-color: var(--accent); box-shadow: 0 0 18px var(--accent-glow);
+      transform: translateY(-3px);
+    }
+    .u-item .icon { font-size: 1.8rem; margin-bottom: 0.35rem; }
+
+    /* Timeline stages */
+    .timeline-nav {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;
+    }
+    .tl-btn {
+      padding: 0.5rem 0.9rem; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--glass); color: var(--text-muted); cursor: pointer;
+      font-family: var(--font); font-weight: 600; font-size: 0.85rem; transition: all 0.2s;
+    }
+    .tl-btn.active, .tl-btn:hover {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .stage-visual {
+      min-height: 220px; border-radius: 16px; border: 1px solid var(--border);
+      background: radial-gradient(circle at center, #2a1050 0%, #0a0520 70%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; margin-bottom: 1.25rem;
+    }
+    .stage-content { text-align: center; padding: 1.5rem; max-width: 520px; z-index: 2; }
+    .stage-content h3 { color: var(--accent); margin-bottom: 0.6rem; font-size: 1.3rem; }
+    .stage-stats {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 1rem;
+    }
+    .stage-stats span {
+      background: rgba(0,0,0,0.35); padding: 0.35rem 0.8rem; border-radius: 8px;
+      font-size: 0.85rem; border: 1px solid var(--border);
+    }
+
+    /* Expanding universe canvas */
+    .sim-canvas {
+      width: 100%; height: 280px; border-radius: 14px; border: 1px solid var(--border);
+      background: #050218; display: block;
+    }
+
+    /* Hubble graph */
+    .chart-box {
+      background: var(--bg-card-solid); border-radius: 12px; padding: 1rem;
+      border: 1px solid var(--border); margin: 1rem 0;
+    }
+    .chart-box canvas { max-height: 260px; }
+
+    /* Quiz */
+    .quiz-q {
+      background: var(--bg-card-solid); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;
+    }
+    .quiz-q h4 { margin-bottom: 0.75rem; font-size: 1.05rem; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+    .quiz-opt {
+      padding: 0.7rem 1rem; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--glass); cursor: pointer; transition: all 0.2s; text-align: right;
+    }
+    .quiz-opt:hover { border-color: var(--accent); }
+    .quiz-opt.correct { border-color: var(--success); background: rgba(52,211,153,0.15); }
+    .quiz-opt.wrong { border-color: var(--danger); background: rgba(248,113,113,0.15); }
+    .quiz-opt.disabled { pointer-events: none; opacity: 0.85; }
+    .quiz-feedback { margin-top: 0.6rem; font-size: 0.9rem; color: var(--text-muted); }
+
+    /* Game order */
+    .order-list {
+      display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0;
+    }
+    .order-item {
+      background: var(--bg-card-solid); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.75rem 1rem; cursor: grab;
+      display: flex; align-items: center; gap: 0.75rem; font-weight: 600;
+      transition: all 0.2s; user-select: none;
+    }
+    .order-item:active { cursor: grabbing; }
+    .order-item.dragging { opacity: 0.5; border-color: var(--accent); }
+    .order-num {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 800; flex-shrink: 0;
+    }
+
+    /* Common mistakes */
+    .mistake {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;
+    }
+    @media (max-width: 600px) { .mistake { grid-template-columns: 1fr; } }
+    .mistake .wrong-box {
+      background: rgba(248,113,113,0.1); border: 1px solid var(--danger);
+      border-radius: 12px; padding: 1rem;
+    }
+    .mistake .right-box {
+      background: rgba(52,211,153,0.1); border: 1px solid var(--success);
+      border-radius: 12px; padding: 1rem;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 0.45rem; margin: 1rem 0; }
+    .step {
+      display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 1rem;
+      background: var(--bg-card-solid); border-radius: 10px; border: 1px solid var(--border);
+    }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--accent);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.8rem; flex-shrink: 0;
+    }
+
+    .calc-steps {
+      font-family: var(--mono); direction: ltr; text-align: left;
+      background: var(--bg-card-solid); padding: 1rem; border-radius: 10px;
+      border: 1px solid var(--border); font-size: 0.95rem; line-height: 1.9;
+    }
+
+    .toggle-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.75rem 0; }
+    .toggle-btn {
+      padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--glass); color: var(--text); cursor: pointer; font-family: var(--font);
+      font-weight: 600; transition: all 0.2s;
+    }
+    .toggle-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .summary-chain {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem;
+      margin: 1.5rem 0; font-weight: 700;
+    }
+    .summary-chain span {
+      background: var(--bg-card-solid); padding: 0.45rem 0.9rem; border-radius: 8px;
+      border: 1px solid var(--border); font-size: 0.9rem;
+    }
+
+    .text-center { text-align: center; }
+    .mt-1 { margin-top: 1rem; }
+    .mt-2 { margin-top: 2rem; }
+    .ltr { direction: ltr; text-align: left; }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    #end { text-align: center; padding-bottom: 5rem; }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+
+  <nav class="navbar">
+    <div class="nav-brand"><span>🌌</span> نشأة الكون</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">الرئيسية</a></li>
+      <li><a href="#what-universe">ما هو الكون؟</a></li>
+      <li><a href="#journey">رحلة النشأة</a></li>
+      <li><a href="#bigbang">الانفجار العظيم</a></li>
+      <li><a href="#expansion">التمدد</a></li>
+      <li><a href="#hubble">قانون هابل</a></li>
+      <li><a href="#dark-energy">الطاقة المظلمة</a></li>
+      <li><a href="#age">عمر الكون</a></li>
+      <li><a href="#game">اللعبة</a></li>
+      <li><a href="#quiz">الاختبار</a></li>
+      <li><a href="#summary">الخلاصة</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-content">
+      <h1 class="hero-title">كيف بدأ الكون؟</h1>
+      <p class="hero-sub">من حالة شديدة الصغر والكثافة إلى كون واسع يتمدد حتى اليوم.</p>
+      <div class="hero-btns">
+        <a href="#journey" class="btn btn-primary">🚀 ابدأ رحلة الكون</a>
+        <a href="#what-universe" class="btn btn-secondary">📖 استكشف الدرس</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IS THE UNIVERSE -->
+  <section id="what-universe">
+    <h2 class="section-title">ما هو الكون؟</h2>
+    <p class="section-sub">الكون هو الفضاء الشاسع الذي يحتوي على أعداد ضخمة من المجرات والسدم والكواكب والكويكبات والمذنبات والشهب.</p>
+    <div class="card">
+      <p style="margin-bottom:1rem;color:var(--text-muted)">اضغط على أي عنصر لاستكشافه:</p>
+      <div class="universe-grid" id="universeItems">
+        <div class="u-item" data-info="تجمعات هائلة من النجوم والغاز والغبار مرتبطة بالجاذبية. مجرتنا تُسمى درب التبانة (Milky Way)."><div class="icon">🌌</div>المجرات</div>
+        <div class="u-item" data-info="سحب ضخمة من الغاز والغبار في الفضاء. منها تولد النجوم الجديدة."><div class="icon">🌫️</div>السدم</div>
+        <div class="u-item" data-info="أجرام تدور حول النجوم. الأرض مثال لكوكب صخري، والمشتري لكوكب غازي عملاق."><div class="icon">🪐</div>الكواكب</div>
+        <div class="u-item" data-info="أجسام صخرية صغيرة تدور حول الشمس، معظمها بين المريخ والمشتري."><div class="icon">☄️</div>الكويكبات</div>
+        <div class="u-item" data-info="أجسام جليدية تُصدر ذيلًا عندما تقترب من الشمس بسبب تبخر الجليد."><div class="icon">☄️</div>المذنبات</div>
+        <div class="u-item" data-info="قطع صغيرة من الصخور أو المعادن تدخل الغلاف الجوي وتحترق محدثة ومضات ضوئية."><div class="icon">✨</div>الشهب</div>
+      </div>
+      <div class="info-box mt-1" id="uInfo">اضغط على أحد العناصر أعلاه لعرض الشرح.</div>
+    </div>
+  </section>
+
+  <!-- JOURNEY / TIMELINE -->
+  <section id="journey">
+    <h2 class="section-title">رحلة عبر نشأة الكون</h2>
+    <p class="section-sub">تحرك عبر المراحل الرئيسية لنشأة الكون وتطوره وفق النموذج الكوني المعياري.</p>
+    <div class="timeline-nav" id="tlNav">
+      <button class="tl-btn active" data-s="0">1. البداية</button>
+      <button class="tl-btn" data-s="1">2. التضخم</button>
+      <button class="tl-btn" data-s="2">3. الجسيمات</button>
+      <button class="tl-btn" data-s="3">4. الأنوية</button>
+      <button class="tl-btn" data-s="4">5. الذرات</button>
+      <button class="tl-btn" data-s="5">6. النجوم</button>
+      <button class="tl-btn" data-s="6">7. المجرات</button>
+      <button class="tl-btn" data-s="7">8. الكون الحالي</button>
+    </div>
+    <div class="card card-glow">
+      <div class="stage-visual" id="stageVisual">
+        <div class="stage-content" id="stageContent">
+          <h3>المرحلة الأولى: البداية</h3>
+          <p>قبل نحو 13.8 مليار سنة كانت المادة والطاقة في حالة شديدة الكثافة والحرارة ضمن حجم متناهي الصغر.</p>
+          <div class="stage-stats">
+            <span>الحجم: متناهي الصغر</span>
+            <span>الحرارة: هائلة جدًا</span>
+            <span>الزمن: t ≈ 0</span>
+          </div>
+        </div>
+      </div>
+      <div class="info-box" id="stageNote">
+        هذه المراحل تعليمية مبسطة مستمدة من النموذج الكوني المعياري (ΛCDM). التفاصيل الدقيقة أعقد وتُدرس في مقررات متقدمة.
+      </div>
+    </div>
+  </section>
+
+  <!-- BIG BANG -->
+  <section id="bigbang">
+    <h2 class="section-title">نظرية الانفجار العظيم</h2>
+    <div class="info-box">
+      <strong>ملاحظة مهمة:</strong> كلمة «انفجار» هنا لا تعني انفجارًا عاديًا داخل فضاء موجود مسبقًا. المقصود هو <strong>تمدد الكون نفسه</strong> من حالة مبكرة شديدة الحرارة والكثافة.
+    </div>
+    <div class="card mt-1">
+      <p>وفق النظرية، قبل نحو <strong class="highlight">13.8 مليار سنة</strong> كانت المادة والطاقة مركزة في منطقة متناهية في الصغر، ثم بدأ الكون في التمدد وانخفضت درجة حرارته تدريجيًا.</p>
+      <div class="steps mt-1">
+        <div class="step"><span class="step-num">1</span> كون شديد الصغر والكثافة والحرارة</div>
+        <div class="step"><span class="step-num">2</span> تمدد سريع (يشمل مرحلة التضخم)</div>
+        <div class="step"><span class="step-num">3</span> انخفاض درجة الحرارة</div>
+        <div class="step"><span class="step-num">4</span> تكون الجسيمات الأولية</div>
+        <div class="step"><span class="step-num">5</span> تكون الأنوية ثم الذرات</div>
+        <div class="step"><span class="step-num">6</span> تكون النجوم ثم المجرات</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPANSION SIM -->
+  <section id="expansion">
+    <h2 class="section-title">تجربة تمدد الكون</h2>
+    <p class="section-sub">شاهد كيف تبتعد المجرات عن بعضها مع تمدد الفضاء نفسه.</p>
+    <div class="card">
+      <canvas class="sim-canvas" id="expandCanvas"></canvas>
+      <div class="control-group mt-1">
+        <label>مقدار الزمن (تسريع) <span class="val" id="expTimeVal">1×</span></label>
+        <input type="range" id="expTime" min="1" max="20" value="1" step="1" />
+      </div>
+      <div class="text-center mt-1">
+        <button class="btn btn-primary" id="expStart">▶ شغّل تمدد الكون</button>
+        <button class="btn btn-secondary btn-sm" id="expReset" style="margin-right:0.5rem">إعادة</button>
+      </div>
+      <p class="text-center mt-1" id="expMsg" style="color:var(--cyan);font-weight:700">اضغط التشغيل لمشاهدة التمدد</p>
+    </div>
+  </section>
+
+  <!-- HUBBLE LAW -->
+  <section id="hubble">
+    <h2 class="section-title">كيف عرف العلماء أن الكون يتمدد؟</h2>
+    <p class="section-sub">اكتشف إدوين هابل أن المجرات تبتعد عنا، وأن سرعة ابتعادها تتناسب مع بعدها.</p>
+    <div class="formula formula-lg">v = H₀ × d</div>
+    <div class="stats-grid">
+      <div class="stat"><div class="label">v سرعة الابتعاد</div><div class="value">km/s</div></div>
+      <div class="stat"><div class="label">H₀ ثابت هابل</div><div class="value">≈ 70 km/s/Mpc</div></div>
+      <div class="stat"><div class="label">d المسافة</div><div class="value">Mpc</div></div>
+    </div>
+    <div class="info-box">
+      القيمة المستخدمة هنا (<strong>H₀ ≈ 70 km/s/Mpc</strong>) تقريبية وتعليمية. القيمة الحقيقية تُقاس بعدة طرق وتوجد حولها بعض التباينات في القياسات الحالية.
+    </div>
+
+    <div class="card mt-2">
+      <h3 style="color:var(--accent);margin-bottom:1rem">حاسبة قانون هابل</h3>
+      <div class="two-col">
+        <div>
+          <div class="control-group">
+            <label>المسافة d (بالميجابارسك Mpc)</label>
+            <input type="number" id="hubD" value="100" min="1" step="1" />
+          </div>
+          <div class="control-group">
+            <label>ثابت هابل H₀ (km/s/Mpc)</label>
+            <input type="number" id="hubH" value="70" min="50" max="100" step="1" />
+          </div>
+          <button class="btn btn-primary" id="hubCalc" style="width:100%">احسب سرعة الابتعاد</button>
+        </div>
+        <div>
+          <div class="calc-steps" id="hubOut">أدخل المسافة واضغط احسب</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3 class="section-title" style="font-size:1.4rem">تجربة قانون هابل — مجرات متعددة</h3>
+    <div class="card">
+      <div class="toggle-group" id="galaxies">
+        <button class="toggle-btn" data-d="50" data-name="Galaxy A">Galaxy A — 50 Mpc</button>
+        <button class="toggle-btn" data-d="100" data-name="Galaxy B">Galaxy B — 100 Mpc</button>
+        <button class="toggle-btn" data-d="200" data-name="Galaxy C">Galaxy C — 200 Mpc</button>
+        <button class="toggle-btn" data-d="350" data-name="Galaxy D">Galaxy D — 350 Mpc</button>
+      </div>
+      <div class="stats-grid" id="galStats" style="display:none">
+        <div class="stat"><div class="label">المجرة</div><div class="value" id="gName">—</div></div>
+        <div class="stat"><div class="label">المسافة</div><div class="value" id="gDist">—</div></div>
+        <div class="stat"><div class="label">سرعة الابتعاد</div><div class="value" id="gVel">—</div></div>
+      </div>
+      <div class="chart-box">
+        <canvas id="hubChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- DARK ENERGY -->
+  <section id="dark-energy">
+    <h2 class="section-title">ما الذي يرتبط بتمدد الكون المتسارع؟</h2>
+    <div class="card">
+      <p>الرصد الحديث يشير إلى أن تمدد الكون <strong>يتسارع</strong> مع الزمن، وليس يتباطأ كما كان يُتوقع بسبب الجاذبية.</p>
+      <div class="info-box mt-1">
+        يُعتقد أن هذا التسارع مرتبط بما يُسمى <strong>الطاقة المظلمة (Dark Energy)</strong>، وطبيعتها ما زالت غير مفهومة بالكامل.
+      </div>
+      <p class="mt-1" style="color:var(--text-muted)">الطاقة المظلمة تُشكّل وفق التقديرات الحالية نحو 68–70% من محتوى الكون، بينما المادة المظلمة نحو 25–27%، والمادة العادية نحو 5%.</p>
+    </div>
+  </section>
+
+  <!-- AGE OF UNIVERSE -->
+  <section id="age">
+    <h2 class="section-title">كم عمر الكون؟</h2>
+    <p class="section-sub">عمر الكون هو الزمن المنقضي منذ بداية التمدد وفق النموذج الكوني المستخدم.</p>
+    <div class="formula formula-lg">≈ 13.8 مليار سنة</div>
+    <div class="card mt-1">
+      <p>في تقريب مبسّط جدًا (مع إهمال التسارع والمادة):</p>
+      <div class="formula">Age ≈ 1 / H₀</div>
+      <div class="info-box">
+        هذه علاقة تعليمية تقريبية فقط. الحساب الدقيق يعتمد على نموذج كوني كامل (محتوى المادة والطاقة المظلمة ومعدل التمدد عبر الزمن). لا تستخدمها كصيغة نهائية دون فهم القيود.
+      </div>
+      <div class="two-col mt-1">
+        <div>
+          <div class="control-group">
+            <label>H₀ (km/s/Mpc)</label>
+            <input type="number" id="ageH" value="70" min="50" max="90" step="1" />
+          </div>
+          <button class="btn btn-primary" id="ageCalc" style="width:100%">قدّر العمر التقريبي</button>
+        </div>
+        <div>
+          <div class="calc-steps" id="ageOut">أدخل قيمة H₀ واضغط احسب</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section id="game">
+    <h2 class="section-title">لعبة: رتّب مراحل نشأة الكون</h2>
+    <p class="section-sub">رتّب المراحل بالترتيب الصحيح من الأقدم إلى الأحدث بالسحب والإفلات أو الأزرار.</p>
+    <div class="card">
+      <div class="order-list" id="orderList"></div>
+      <div class="text-center mt-1">
+        <button class="btn btn-primary" id="checkOrder">تحقق من الترتيب</button>
+        <button class="btn btn-secondary btn-sm" id="shuffleOrder">خلط جديد</button>
+      </div>
+      <div id="orderResult" class="mt-1 text-center" style="font-weight:700;min-height:1.5em"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz">
+    <h2 class="section-title">اختبار نشأة الكون</h2>
+    <div id="quizBox"></div>
+    <div class="text-center mt-1">
+      <button class="btn btn-primary" id="quizSubmit">عرض النتيجة</button>
+    </div>
+    <div id="quizResult" class="card mt-1" style="display:none"></div>
+  </section>
+
+  <!-- CHALLENGES -->
+  <section id="challenges">
+    <h2 class="section-title">تحديات حسابية</h2>
+    <div class="card">
+      <p><strong>المسألة:</strong> مجرة تبعد عنا مسافة <span class="highlight">150 Mpc</span>. استخدم H₀ = 70 km/s/Mpc. ما سرعة ابتعادها؟</p>
+      <div class="control-group mt-1">
+        <label>أدخل إجابتك (km/s)</label>
+        <input type="number" id="chalAns" placeholder="مثال: 10500" style="max-width:220px" />
+      </div>
+      <button class="btn btn-primary btn-sm" id="chalBtn">تحقق</button>
+      <div id="chalFb" class="mt-1" style="display:none"></div>
+    </div>
+  </section>
+
+  <!-- MISTAKES -->
+  <section id="mistakes">
+    <h2 class="section-title">أخطاء شائعة</h2>
+    <div class="mistake">
+      <div class="wrong-box"><strong>❌ خطأ:</strong> الانفجار العظيم يعني انفجار جسم داخل فضاء موجود مسبقًا.</div>
+      <div class="right-box"><strong>✓ الصحيح:</strong> النموذج يصف تمدد الكون نفسه من حالة مبكرة شديدة الحرارة والكثافة.</div>
+    </div>
+    <div class="mistake">
+      <div class="wrong-box"><strong>❌ خطأ:</strong> المجرات تتحرك داخل فضاء ثابت مثل مقذوفات.</div>
+      <div class="right-box"><strong>✓ الصحيح:</strong> الفضاء نفسه يتمدد، فتتباعد المجرات مع تمدده.</div>
+    </div>
+    <div class="mistake">
+      <div class="wrong-box"><strong>❌ خطأ:</strong> قانون هابل يعني أن الأرض مركز الكون.</div>
+      <div class="right-box"><strong>✓ الصحيح:</strong> من أي مجرة تقريبًا يبدو الكون يتمدد بنفس الطريقة (مبدأ الكونية).</div>
+    </div>
+    <div class="mistake">
+      <div class="wrong-box"><strong>❌ خطأ:</strong> عمر الكون = 1/H₀ بدقة مطلقة دائمًا.</div>
+      <div class="right-box"><strong>✓ الصحيح:</strong> العلاقة تقريبية تعليمية؛ العمر الدقيق يعتمد على النموذج الكوني الكامل.</div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <h2 class="section-title">الخلاصة</h2>
+    <div class="card">
+      <div class="summary-chain">
+        <span>الكون</span> →
+        <span>الانفجار العظيم</span> →
+        <span>التمدد</span> →
+        <span>انخفاض الحرارة</span> →
+        <span>الجسيمات والذرات</span> →
+        <span>النجوم</span> →
+        <span>المجرات</span> →
+        <span>الكون الحالي</span>
+      </div>
+      <ol style="padding-right:1.5rem;line-height:2.1;margin-top:1rem">
+        <li>الكون بدأ من حالة شديدة الكثافة والحرارة ثم تمدد.</li>
+        <li>نظرية الانفجار العظيم تصف تمدد الكون نفسه.</li>
+        <li>الملاحظات (مثل انزياح المجرات نحو الأحمر) تدعم تمدد الكون.</li>
+        <li>قانون هابل: v = H₀ d</li>
+        <li>يُعتقد أن الطاقة المظلمة مرتبطة بتسارع التمدد، وطبيعتها غير مفهومة بالكامل.</li>
+        <li>عمر الكون وفق النموذج الحالي ≈ 13.8 مليار سنة.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section id="sources">
+    <h2 class="section-title">المصادر والمراجع</h2>
+    <div class="card">
+      <ul style="padding-right:1.5rem;line-height:2">
+        <li>مذكرة علوم الأرض والفضاء (المصدر الأساسي للمحتوى المدرسي).</li>
+        <li>المبادئ العامة للنموذج الكوني المعياري (ΛCDM) كما تُقدَّم في المقررات التمهيدية.</li>
+        <li>قانون هابل–ليميتر والعلاقة بين المسافة وسرعة الابتعاد.</li>
+      </ul>
+      <p class="mt-1" style="color:var(--text-muted);font-size:0.9rem">
+        الموقع تعليمي مبسّط. القيم المستخدمة (مثل H₀ ≈ 70) تقريبية لأغراض التعلم المدرسي.
+      </p>
+    </div>
+  </section>
+
+  <!-- END -->
+  <section id="end">
+    <h2 class="section-title" style="justify-content:center">لقد استكشفت نشأة الكون</h2>
+    <p class="section-sub" style="text-align:center">من حالة شديدة الصغر… إلى كون يتمدد حتى اليوم.</p>
+    <div class="hero-btns">
+      <a href="#journey" class="btn btn-primary">أعد الرحلة</a>
+      <a href="#quiz" class="btn btn-secondary">اختبر نفسك</a>
+    </div>
+  </section>
+
+  <script>
+    // ========== STARS ==========
+    (function createStars() {
+      const c = document.getElementById('stars');
+      for (let i = 0; i < 120; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const size = Math.random() * 2.2 + 0.4;
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.right = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDuration = (2 + Math.random() * 4) + 's';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        c.appendChild(s);
+      }
+    })();
+
+    // ========== NAV ==========
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+      });
+    });
+
+    // ========== UNIVERSE ITEMS ==========
+    document.querySelectorAll('.u-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.u-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        document.getElementById('uInfo').textContent = item.dataset.info;
+      });
+    });
+
+    // ========== JOURNEY STAGES ==========
+    const stages = [
+      {
+        title: 'المرحلة الأولى: البداية',
+        text: 'قبل نحو 13.8 مليار سنة كانت المادة والطاقة في حالة شديدة الكثافة والحرارة ضمن حجم متناهي الصغر.',
+        stats: ['الحجم: متناهي الصغر', 'الحرارة: هائلة جدًا', 'الزمن: t ≈ 0'],
+        color: '#4c1d95'
+      },
+      {
+        title: 'المرحلة الثانية: التضخم (Inflation)',
+        text: 'فترة وجيزة جدًا من التمدد الهائل والسريع جعلت الكون يتوسع بمعدلات هائلة، مما ساعد على تفسير تجانس الكون على المقاييس الكبيرة.',
+        stats: ['تمدد هائل', 'زمن قصير جدًا', 'تجانس الكون'],
+        color: '#5b21b6'
+      },
+      {
+        title: 'المرحلة الثالثة: الجسيمات الأولية',
+        text: 'مع انخفاض الحرارة ظهرت الجسيمات الأولية مثل الكواركات والإلكترونات والنيوترينوات، ثم تكوّنت البروتونات والنيوترونات.',
+        stats: ['كواركات', 'إلكترونات', 'بروتونات ونيوترونات'],
+        color: '#6d28d9'
+      },
+      {
+        title: 'المرحلة الرابعة: الأنوية الخفيفة',
+        text: 'في الدقائق الأولى تكوّنت أنوية العناصر الخفيفة (الهيدروجين والهيليوم بنسب رئيسية) عبر عملية التخليق النووي البدائي.',
+        stats: ['هيدروجين', 'هيليوم', 'تخليق نووي بدائي'],
+        color: '#7c3aed'
+      },
+      {
+        title: 'المرحلة الخامسة: الذرات المحايدة',
+        text: 'بعد مئات الآلاف من السنين انخفضت الحرارة بما يكفي لارتباط الإلكترونات بالأنوية مكونة ذرات محايدة، وأصبح الكون شفافًا للضوء (عصر إعادة الاندماج).',
+        stats: ['ذرات محايدة', 'شفافية الكون', 'إشعاع الخلفية CMB'],
+        color: '#8b5cf6'
+      },
+      {
+        title: 'المرحلة السادسة: النجوم الأولى',
+        text: 'تشكلت سحب غازية تحت تأثير الجاذبية، وانهارت لتكون النجوم الأولى التي أضاءت الكون.',
+        stats: ['سحب غازية', 'نجوم أولى', 'اندماج نووي'],
+        color: '#a78bfa'
+      },
+      {
+        title: 'المرحلة السابعة: المجرات',
+        text: 'تجمعت النجوم والغاز في بنى أكبر مكونة المجرات والعناقيد المجرية عبر تأثير الجاذبية والمادة المظلمة.',
+        stats: ['مجرات', 'عناقيد', 'مادة مظلمة'],
+        color: '#c4b5fd'
+      },
+      {
+        title: 'المرحلة الثامنة: الكون الحالي',
+        text: 'اليوم يستمر الكون في التمدد (بتسارع وفق الرصد الحديث)، ويحتوي على مليارات المجرات، ونحن جزء من مجرة درب التبانة.',
+        stats: ['تمدد متسارع', 'مليارات المجرات', '≈ 13.8 مليار سنة'],
+        color: '#22d3ee'
+      }
+    ];
+
+    function showStage(i) {
+      const s = stages[i];
+      document.getElementById('stageContent').innerHTML = `
+        <h3>${s.title}</h3>
+        <p>${s.text}</p>
+        <div class="stage-stats">${s.stats.map(t => `<span>${t}</span>`).join('')}</div>
+      `;
+      document.getElementById('stageVisual').style.background =
+        `radial-gradient(circle at center, ${s.color}55 0%, #0a0520 70%)`;
+      document.querySelectorAll('.tl-btn').forEach((b, idx) => b.classList.toggle('active', idx === i));
+    }
+    document.querySelectorAll('.tl-btn').forEach(btn => {
+      btn.addEventListener('click', () => showStage(+btn.dataset.s));
+    });
+
+    // ========== EXPANSION CANVAS ==========
+    const expCanvas = document.getElementById('expandCanvas');
+    const expCtx = expCanvas.getContext('2d');
+    let galaxies = [], expanding = false, expFactor = 1, expAnim = null;
+
+    function resizeExp() {
+      expCanvas.width = expCanvas.offsetWidth * devicePixelRatio;
+      expCanvas.height = expCanvas.offsetHeight * devicePixelRatio;
+      expCtx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+    function initGalaxies() {
+      galaxies = [];
+      const w = expCanvas.offsetWidth, h = expCanvas.offsetHeight;
+      const cx = w / 2, cy = h / 2;
+      for (let i = 0; i < 35; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const r = 20 + Math.random() * Math.min(w, h) * 0.35;
+        galaxies.push({
+          x0: cx + Math.cos(ang) * r,
+          y0: cy + Math.sin(ang) * r,
+          size: 1.5 + Math.random() * 2.5,
+          color: `hsl(${220 + Math.random() * 80}, 80%, ${60 + Math.random() * 25}%)`
+        });
+      }
+    }
+    function drawExpansion() {
+      const w = expCanvas.offsetWidth, h = expCanvas.offsetHeight;
+      const cx = w / 2, cy = h / 2;
+      expCtx.clearRect(0, 0, w, h);
+      // center marker
+      expCtx.fillStyle = 'rgba(167,139,250,0.5)';
+      expCtx.beginPath();
+      expCtx.arc(cx, cy, 4, 0, Math.PI * 2);
+      expCtx.fill();
+      galaxies.forEach(g => {
+        const x = cx + (g.x0 - cx) * expFactor;
+        const y = cy + (g.y0 - cy) * expFactor;
+        expCtx.fillStyle = g.color;
+        expCtx.beginPath();
+        expCtx.arc(x, y, g.size, 0, Math.PI * 2);
+        expCtx.fill();
+      });
+    }
+    function startExpansion() {
+      if (expanding) return;
+      expanding = true;
+      document.getElementById('expMsg').textContent = 'الكون يتمدد...';
+      const speed = +document.getElementById('expTime').value;
+      function tick() {
+        if (!expanding) return;
+        expFactor += 0.008 * speed;
+        if (expFactor > 3.5) {
+          expanding = false;
+          document.getElementById('expMsg').textContent = 'الكون يتمدد — المجرات تبتعد عن بعضها.';
+          return;
+        }
+        drawExpansion();
+        expAnim = requestAnimationFrame(tick);
+      }
+      tick();
+    }
+    function resetExpansion() {
+      expanding = false;
+      if (expAnim) cancelAnimationFrame(expAnim);
+      expFactor = 1;
+      initGalaxies();
+      drawExpansion();
+      document.getElementById('expMsg').textContent = 'اضغط التشغيل لمشاهدة التمدد';
+    }
+    document.getElementById('expTime').addEventListener('input', e => {
+      document.getElementById('expTimeVal').textContent = e.target.value + '×';
+    });
+    document.getElementById('expStart').addEventListener('click', startExpansion);
+    document.getElementById('expReset').addEventListener('click', resetExpansion);
+    window.addEventListener('resize', () => { resizeExp(); drawExpansion(); });
+    resizeExp();
+    initGalaxies();
+    drawExpansion();
+
+    // ========== HUBBLE CALCULATOR ==========
+    document.getElementById('hubCalc').addEventListener('click', () => {
+      const d = +document.getElementById('hubD').value;
+      const H = +document.getElementById('hubH').value;
+      const v = H * d;
+      document.getElementById('hubOut').innerHTML = `
+<strong>القانون:</strong> v = H₀ × d<br><br>
+v = ${H} × ${d}<br>
+v = <strong>${v.toLocaleString('en-US')} km/s</strong><br><br>
+المجرة تبتعد عنا بسرعة ${v.toLocaleString('en-US')} كيلومتر في الثانية.
+      `;
+    });
+
+    // ========== HUBBLE GALAXIES + CHART ==========
+    let hubChart;
+    const hubPoints = [];
+    function initHubChart() {
+      const ctx = document.getElementById('hubChart').getContext('2d');
+      hubChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'المجرة المختارة',
+            data: hubPoints,
+            backgroundColor: '#a78bfa',
+            pointRadius: 8
+          }, {
+            label: 'العلاقة الخطية (تعليمية)',
+            data: [{x:0,y:0},{x:400,y:28000}],
+            type: 'line',
+            borderColor: 'rgba(34,211,238,0.5)',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: { title: { display: true, text: 'المسافة d (Mpc)', color: '#a5b4d4' }, ticks: { color: '#a5b4d4' }, grid: { color: 'rgba(167,139,250,0.1)' }, min: 0, max: 400 },
+            y: { title: { display: true, text: 'السرعة v (km/s)', color: '#a5b4d4' }, ticks: { color: '#a5b4d4' }, grid: { color: 'rgba(167,139,250,0.1)' }, min: 0 }
+          },
+          plugins: { legend: { labels: { color: '#e8e4ff' } } }
+        }
+      });
+    }
+    document.querySelectorAll('#galaxies .toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#galaxies .toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const d = +btn.dataset.d;
+        const name = btn.dataset.name;
+        const H = 70;
+        const v = H * d;
+        document.getElementById('galStats').style.display = 'grid';
+        document.getElementById('gName').textContent = name;
+        document.getElementById('gDist').textContent = d + ' Mpc';
+        document.getElementById('gVel').textContent = v.toLocaleString('en-US') + ' km/s';
+        // update chart point
+        hubPoints.length = 0;
+        hubPoints.push({ x: d, y: v });
+        if (hubChart) hubChart.update();
+      });
+    });
+
+    // ========== AGE CALCULATOR ==========
+    document.getElementById('ageCalc').addEventListener('click', () => {
+      const H = +document.getElementById('ageH').value;
+      // 1 Mpc = 3.0857e19 km, 1 year ≈ 3.15576e7 s
+      // Age (years) ≈ (1/H) * (3.0857e19 / 3.15576e7) ≈ 9.778e11 / H
+      const ageGyr = (977.8 / H); // approximate in billion years
+      document.getElementById('ageOut').innerHTML = `
+<strong>تقريب تعليمي:</strong> Age ≈ 1 / H₀<br><br>
+مع تحويل الوحدات:<br>
+Age ≈ ${ageGyr.toFixed(1)} مليار سنة<br><br>
+<strong>ملاحظة:</strong> هذا تقريب مبسّط. العمر المعتمد حاليًا ≈ 13.8 مليار سنة ضمن النموذج الكامل.
+      `;
+    });
+
+    // ========== ORDER GAME ==========
+    const correctOrder = [
+      'التمدد من حالة مبكرة',
+      'الجسيمات الأولية',
+      'الأنوية الخفيفة',
+      'الذرات المحايدة',
+      'السحب الغازية والنجوم',
+      'المجرات'
+    ];
+    let currentOrder = [];
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+    function renderOrder() {
+      const list = document.getElementById('orderList');
+      list.innerHTML = '';
+      currentOrder.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'order-item';
+        div.draggable = true;
+        div.dataset.idx = i;
+        div.innerHTML = `<span class="order-num">${i + 1}</span><span>${item}</span>`;
+        list.appendChild(div);
+      });
+      // simple click-to-swap via buttons would be complex; use drag
+      setupDrag();
+    }
+    function setupDrag() {
+      const items = document.querySelectorAll('.order-item');
+      let dragSrc = null;
+      items.forEach(item => {
+        item.addEventListener('dragstart', e => {
+          dragSrc = item;
+          item.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        item.addEventListener('dragend', () => item.classList.remove('dragging'));
+        item.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+        item.addEventListener('drop', e => {
+          e.preventDefault();
+          if (dragSrc && dragSrc !== item) {
+            const from = +dragSrc.dataset.idx;
+            const to = +item.dataset.idx;
+            const tmp = currentOrder[from];
+            currentOrder[from] = currentOrder[to];
+            currentOrder[to] = tmp;
+            renderOrder();
+          }
+        });
+      });
+    }
+    function newShuffle() {
+      currentOrder = shuffle(correctOrder);
+      document.getElementById('orderResult').textContent = '';
+      renderOrder();
+    }
+    document.getElementById('shuffleOrder').addEventListener('click', newShuffle);
+    document.getElementById('checkOrder').addEventListener('click', () => {
+      const ok = currentOrder.every((v, i) => v === correctOrder[i]);
+      const el = document.getElementById('orderResult');
+      if (ok) {
+        el.innerHTML = '<span style="color:var(--success)">✓ ترتيب صحيح! أحسنت.</span>';
+      } else {
+        el.innerHTML = '<span style="color:var(--danger)">✗ الترتيب غير صحيح. حاول مرة أخرى أو اضغط «خلط جديد».</span>';
+      }
+    });
+    newShuffle();
+
+    // ========== QUIZ ==========
+    const questions = [
+      { q: 'نظرية الانفجار العظيم تصف بشكل أساسي:', opts: ['انفجار نجم داخل المجرة', 'تمدد الكون من حالة مبكرة شديدة الكثافة', 'اصطدام مجرتين', 'تكون الشمس'], ans: 1, exp: 'النظرية تصف تمدد الكون نفسه وليس انفجارًا داخل فضاء موجود مسبقًا.' },
+      { q: 'قانون هابل يربط بين:', opts: ['كتلة المجرة ولونها', 'سرعة ابتعاد المجرة ومسافتها', 'حجم النجم ودرجة حرارته', 'عدد الكواكب والمسافة'], ans: 1, exp: 'v = H₀ d — سرعة الابتعاد تتناسب مع المسافة.' },
+      { q: 'الوحدة الشائعة لثابت هابل H₀:', opts: ['km/s', 'km/s/Mpc', 'سنة ضوئية', 'Kelvin'], ans: 1, exp: 'كيلومتر في الثانية لكل ميجابارسك.' },
+      { q: 'يُعتقد أن تسارع تمدد الكون مرتبط بـ:', opts: ['المادة المظلمة فقط', 'الطاقة المظلمة', 'الثقوب السوداء', 'أشعة جاما'], ans: 1, exp: 'الطاقة المظلمة مفهوم يفسر التسارع المرصود، وطبيعتها غير مفهومة بالكامل.' },
+      { q: 'عمر الكون التقريبي وفق النموذج الحالي:', opts: ['4.5 مليار سنة', '13.8 مليار سنة', '100 مليون سنة', '1 مليار سنة'], ans: 1, exp: 'حوالي 13.8 مليار سنة.' },
+      { q: 'ما الذي يحدث للمجرات البعيدة بسبب تمدد الكون؟', opts: ['تقترب منا', 'تبتعد عنا', 'تتوقف عن الحركة', 'تتحول إلى ثقوب سوداء فورًا'], ans: 1, exp: 'الفضاء يتمدد فتتباعد المجرات.' },
+      { q: 'مرحلة التضخم (Inflation) تشير إلى:', opts: ['تمدد بطيء حالي', 'فترة مبكرة من تمدد هائل وسريع جدًا', 'تكون الكواكب', 'انفجار مستعر أعظم'], ans: 1, exp: 'فترة وجيزة من التمدد الهائل في الكون المبكر.' },
+      { q: 'إشعاع الخلفية الكونية الميكروي (CMB) دليل على:', opts: ['وجود الثقوب السوداء فقط', 'كون ساخن مبكر أصبح شفافًا', 'دوران الأرض', 'وجود الماء على المريخ'], ans: 1, exp: 'بقايا إشعاع من عصر إعادة الاندماج عندما أصبح الكون شفافًا.' },
+      { q: 'في التقريب المبسط Age ≈ 1/H₀، إذا زاد H₀ فإن العمر التقديري:', opts: ['يزداد', 'ينقص', 'لا يتغير', 'يصبح صفرًا'], ans: 1, exp: 'العلاقة عكسية في هذا التقريب.' },
+      { q: 'أي من التالي ليس وصفًا صحيحًا للانفجار العظيم؟', opts: ['تمدد الكون', 'انخفاض تدريجي للحرارة', 'انفجار قنبلة داخل فضاء فارغ موجود مسبقًا', 'تكون الجسيمات ثم الذرات'], ans: 2, exp: 'ليس انفجارًا داخل فضاء موجود مسبقًا.' }
+    ];
+
+    function renderQuiz() {
+      const box = document.getElementById('quizBox');
+      box.innerHTML = '';
+      questions.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-q';
+        div.innerHTML = `<h4>${i + 1}. ${item.q}</h4><div class="quiz-opts" id="qq${i}"></div><div class="quiz-feedback" id="qfb${i}"></div>`;
+        box.appendChild(div);
+        const opts = div.querySelector('.quiz-opts');
+        item.opts.forEach((o, j) => {
+          const b = document.createElement('button');
+          b.className = 'quiz-opt';
+          b.textContent = o;
+          b.addEventListener('click', () => {
+            if (b.classList.contains('disabled')) return;
+            opts.querySelectorAll('.quiz-opt').forEach(x => {
+              x.classList.add('disabled');
+              if (x !== b) x.style.opacity = '0.5';
+            });
+            if (j === item.ans) {
+              b.classList.add('correct');
+              b.dataset.correct = '1';
+              document.getElementById('qfb' + i).textContent = '✓ صحيح — ' + item.exp;
+            } else {
+              b.classList.add('wrong');
+              b.dataset.correct = '0';
+              opts.children[item.ans].classList.add('correct');
+              document.getElementById('qfb' + i).textContent = '✗ خطأ — ' + item.exp;
+            }
+          });
+          opts.appendChild(b);
+        });
+      });
+    }
+    renderQuiz();
+    document.getElementById('quizSubmit').addEventListener('click', () => {
+      let correct = 0;
+      questions.forEach((_, i) => {
+        if (document.querySelector(`#qq${i} [data-correct="1"]`)) correct++;
+      });
+      const total = questions.length;
+      const pct = Math.round((correct / total) * 100);
+      let level = 'يحتاج مراجعة';
+      if (pct >= 90) level = 'ممتاز 🏆';
+      else if (pct >= 70) level = 'جيد جدًا';
+      else if (pct >= 50) level = 'مقبول';
+      const res = document.getElementById('quizResult');
+      res.style.display = 'block';
+      res.innerHTML = `<h3>النتيجة: ${correct} / ${total}</h3><p>النسبة: ${pct}%</p><p>التقييم: <strong>${level}</strong></p>`;
+    });
+
+    // ========== CHALLENGE ==========
+    document.getElementById('chalBtn').addEventListener('click', () => {
+      const ans = parseFloat(document.getElementById('chalAns').value);
+      const correct = 70 * 150; // 10500
+      const fb = document.getElementById('chalFb');
+      fb.style.display = 'block';
+      if (Math.abs(ans - correct) < 1) {
+        fb.innerHTML = `<span style="color:var(--success)">✓ صحيح! v = 10500 km/s</span>
+          <div class="calc-steps mt-1">v = H₀ × d = 70 × 150 = 10500 km/s</div>`;
+      } else {
+        fb.innerHTML = `<span style="color:var(--danger)">✗ الإجابة الصحيحة = 10500 km/s</span>
+          <div class="calc-steps mt-1">v = H₀ × d = 70 × 150 = 10500 km/s</div>`;
+      }
+    });
+
+    // ========== INIT CHART ==========
+    window.addEventListener('load', () => {
+      initHubChart();
+    });
+  </script>
+</body>
+</html>
